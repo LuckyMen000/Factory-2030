@@ -1,36 +1,25 @@
-name: factoryops
-
+name: factory2030
 services:
   backend:
-    build:
-      context: ./backend
-    image: factoryops-backend:local
+    build: ./backend
+    image: factory2030-backend:local
     ports:
       - "127.0.0.1:${API_PORT:-8000}:8000"
     volumes:
-      - factoryops-db:/app/data
-      - factoryops-uploads:/app/uploads
+      - maintenance-db:/app/data
     environment:
-      DATABASE_URL: sqlite:////app/data/factoryops.db
-      UPLOAD_DIR: /app/uploads
-      PUBLIC_WEB_URL: ${PUBLIC_WEB_URL:-http://localhost:8080}
+      DB_PATH: /app/data/maintenance.db
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:8080}
     healthcheck:
-      test:
-        - CMD
-        - python
-        - -c
-        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=2)"
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=2)"]
       interval: 10s
       timeout: 3s
       retries: 6
       start_period: 20s
     restart: unless-stopped
-
   frontend:
-    build:
-      context: ./frontend
-    image: factoryops-frontend:local
+    build: ./frontend
+    image: factory2030-frontend:local
     depends_on:
       backend:
         condition: service_healthy
@@ -43,7 +32,5 @@ services:
       retries: 6
       start_period: 10s
     restart: unless-stopped
-
 volumes:
-  factoryops-db:
-  factoryops-uploads:
+  maintenance-db:

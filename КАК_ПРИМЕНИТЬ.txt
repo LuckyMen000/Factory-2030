@@ -1,0 +1,19 @@
+ПАТЧ Factory-2030 (исправление GitHub Pages 404, фронтенд CI, backend pytest, Docker)
+
+1. Распакуйте ZIP в любую папку (например, Загрузки\Factory-2030-FIX-PATCH).
+2. Откройте PowerShell в распакованной папке.
+3. Выполните:
+   powershell -ExecutionPolicy Bypass -File .\APPLY_FIXES_WINDOWS.ps1 -ProjectPath "C:\Users\ВАШ_ПОЛЬЗОВАТЕЛЬ\Desktop\Factory-2030"
+   Замените путь на настоящую папку локального клона проекта.
+4. Откройте терминал в папке проекта:
+   git status
+   git add .
+   git commit -m "fix: pages CI Docker FastAPI"
+   git push origin main
+5. GitHub -> Settings -> Pages -> Build and deployment -> Source: GitHub Actions.
+6. GitHub -> Actions -> Deploy frontend to GitHub Pages, дождитесь проверки, затем откройте:
+   https://luckymen000.github.io/Factory-2030/
+
+ВНИМАНИЕ: GitHub Pages публикует только статический интерфейс. Backend/FastAPI/SQLite на GitHub Pages не работают. Данные и заявки появятся, только если backend размещён отдельно или приложение запущено локально через Docker.
+
+Копии старых файлов сохраняются в _backup_before_fix рядом со скриптом (не внутри репозитория). Проверьте git diff перед коммитом.
